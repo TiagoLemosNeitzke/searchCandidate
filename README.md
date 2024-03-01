@@ -37,6 +37,7 @@ All requirements and steps to run the project are listed there.
 Thank you for considering contributing to the project, the contribution guide can be found in [Contributing Guide](./.github/CONTRIBUTING.md).
 
 <br/>
+
 ## Credits
 
 - [All Contributors](../../contributors)
