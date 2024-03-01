@@ -1,4 +1,4 @@
-default: env prepare up key-generate migrate npm-install npm-dev
+default: env prepare up key-generate npm-install migrate npm-dev
 	@echo "--> Your environment is ready to use! Access http://laravel.test and enjoy it!"
 
 .PHONY: env
@@ -21,15 +21,15 @@ key-generate:
 	@echo "--> Generating new laravel key..."
 	@./vendor/bin/sail art key:generate
 
-.PHONY: migrate
-migrate:
-	@echo "--> run sail art migrate command..."
-	@./vendor/bin/sail art migrate
-
 .PHONY: npm-install
 npm-install:
 	@echo "--> run npm install command command..."
 	@./vendor/bin/sail npm install
+
+.PHONY: migrate
+migrate:
+	@echo "--> run sail art migrate command..."
+	@./vendor/bin/sail art migrate
 
 .PHONY: npm-dev
 npm-dev:
