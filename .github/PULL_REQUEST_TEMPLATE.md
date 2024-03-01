@@ -22,7 +22,7 @@ If yes, please describe the impact and migration path for existing applications:
 
 - [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix: #xxx[,#xxx]`, where "xxx" is the issue number)
 - [ ] The code proposed here was covered by testing.
-- [ ] Any necessary documentation has been added or updated [in the docs](https://github.com/beerandcodeteam/adoteumdev/tree/dev/docs) or explained in the PR's description.
+- [ ] Any necessary documentation has been added or updated in the docs or explained in the PR's description.
 
 
 If adding a **new feature**, the PR's description includes:
