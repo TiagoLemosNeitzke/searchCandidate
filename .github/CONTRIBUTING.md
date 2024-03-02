@@ -94,6 +94,8 @@ $ make
 The `make` command will install all the dependencies of the project, both from `composer` and `npm` and upload your docker containers. 
 If this works, you can skip the other steps below and skip to step [6. Open Application in Browser](#6-open-application-in-browser). 
 
+
+#### daqui pra baixo não é assim que faz a config inicial tem que arrumar
 Alternatively, you can perform the other steps below if the make command does not work:
 ```bash
 $ ./sail config
