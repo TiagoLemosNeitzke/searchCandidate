@@ -95,32 +95,37 @@ The `make` command will install all the dependencies of the project, both from `
 If this works, you can skip the other steps below and skip to step [6. Open Application in Browser](#6-open-application-in-browser). 
 
 
-#### daqui pra baixo não é assim que faz a config inicial tem que arrumar
 Alternatively, you can perform the other steps below if the make command does not work:
+Install your `composer` dependencies by running the following commands:
+
 ```bash
-$ ./sail config
+$ docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
 ```
-
-📝 Note
-> If you are running the project for the first time, you need to run the above command so that the composer and npm dependencies are installed correctly. Besides, this command will create a .env file for you (if don't exist yet) based on .env.example file.
-
-<br />
 
 ### 5.3. Create the Environment
-Once all `composer` and `npm` dependencies are installed, effectively create the Docker development environment with the command below:
+After installing the dependencies, you need to create the environment. To do this, run the following command:
 
 ```bash
-$ ./sail init
+$ cp .env.example .env
+```
+<br />
+
+Upload your docker containers by running the following command:
+
+```bash
+$ ./vendor/bin/sail up
 ```
 
-This command will initiate downloads of all the Docker images needed to create the entire development environment established by the Laravel team.
+Install your `npm` dependencies by running the following commands:
 
-📝 Note
-> In case the Docker images already exist on your workstation, their download will be ignored and if the application image's Dockerfile is changed, this command will rebuild the image before executing the container.
-
-After all Docker images have been downloaded, all containers will be started, thus ending the development environment creation cycle.
-
-<br />
+```bash
+$ ./vendor/bin/sail npm install
+```
 
 ### 5.4. Building Assets
 Now that the development environment has been built, we need to compile the assets so that (`styles, scripts, etc`)  are handled and published. To do this, just run the following command:
