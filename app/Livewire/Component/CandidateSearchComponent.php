@@ -11,10 +11,12 @@ use Livewire\Component;
 final class CandidateSearchComponent extends Component
 {
     public string $location = '';
+
     public string $language = '';
+
     public string $repos = '';
 
-    public $http;
+    protected $http;
 
     public $results;
 
@@ -61,11 +63,8 @@ final class CandidateSearchComponent extends Component
                  totalCount }
                   }}}}}";
 
-
-        // Cria uma chave única para a consulta
         $cacheKey = 'github.search:' . md5($query);
 
-        // Tenta obter o resultado do cache, se não estiver disponível, executa a consulta
         $result = Cache::remember($cacheKey, 60, function () use ($search) {
             return $this->http->getData($search);
         });
