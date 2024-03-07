@@ -13,6 +13,8 @@ final class CandidateSearchComponent extends Component
     public string $language = '';
     public string $repos = '';
 
+    public $result;
+
     public function render(): View|Application
     {
         return view('livewire.component.candidate-search-component')
@@ -23,33 +25,26 @@ final class CandidateSearchComponent extends Component
     {
         //todo: preciso montar a query de busca na api graphQl do github
 
-        $query = "type:user repos:>$this->repos language:$this->language location:$this->location  is:public";
+        $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
+        $search = "{search(query: \"$query\", type: USER, first: 10) {
+            userCount
+            edges {
+                node {
+                 ... on User {
+                 email
+                 bio
+                 location
+                 name
+                 avatarUrl
+                 repositoriesContributedTo {
+                 totalCount }
+                  }}}}}";
 
         $result = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('GITHUB_TOKEN'),
+            'Authorization' => 'Bearer ' . config('github.token'),
             'Content-Type' => 'application/json'])
-            ->post('https://api.github.com/graphql', ['query' => $query])
-            ->json();
+            ->post('https://api.github.com/graphql', ['query' => $search]);
 
-        dd($result);
-        /*{
-            search(query: "type:user repos:>$this->>repos language:$this->language location:$this->>location  is:public ", type: USER, first: 10) {
-            userCount
-    edges {
-            node {
-                ... on User {
-                    email
-					bio
-					location
-					name
-					avatarUrl
-          repositoriesContributedTo {
-                        totalCount
-          }
-        }
-      }
-    }
-  }
-}*/
+        $this->result = $result->body();
     }
 }

@@ -76,4 +76,8 @@
         |
         <x-primary-button wire:click="search" class="w-24 h-10">Buscar</x-primary-button>
     </div>
+
+    <div>
+        {{$this->result}}
+    </div>
 </div>
