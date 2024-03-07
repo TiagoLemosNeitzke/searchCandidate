@@ -1,5 +1,5 @@
 <div class="w-10/12 mx-auto">
-    <!-- Component: Simple Success Alert -->
+    <!-- Component: Simple error Alert -->
     @if( session()->has('error'))
         <div x-data="{ showMessage: true }" x-show="showMessage" x-init="setTimeout(() => showMessage = false, 3000)"
              class="flex space-x-8 my-12 w-full px-4 py-3 text-xl border rounded border-red-100 bg-red-50 text-red-500"
@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <!-- End Simple Success Alert -->
+    <!-- End Simple error Alert -->
     <div class="mx-auto flex flex-col lg:flex-row justify-between">
         <!-- Component: Rounded base basic select -->
         <div class="relative my-6 md:w-60">
@@ -24,6 +24,9 @@
                 <option value="php">PHP</option>
                 <option value="javascript">Javascript</option>
                 <option value="python">Python</option>
+                <option value="golang">Golang</option>
+                <option value="rust">Rust</option>
+                <option value="dart">Dart</option>
             </select>
             <label for="language"
                    class="pointer-events-none absolute top-2.5 left-2 z-[1] px-2 text-sm text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-valid:-top-2 peer-valid:text-xs peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent">
@@ -48,7 +51,7 @@
                 <option value="" disabled selected></option>
                 <option value="brasil">Brasil</option>
                 <option value="canada">Canadá</option>
-                <option value="cuba">Cuba</option>
+                <option value="china">China</option>
             </select>
             <label for="location"
                    class="pointer-events-none absolute top-2.5 left-2 z-[1] px-2 text-sm text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-valid:-top-2 peer-valid:text-xs peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent">
@@ -74,6 +77,7 @@
                 <option value="10">10</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
+                <option value="200">200</option>
             </select>
             <label for="repos"
                    class="pointer-events-none absolute top-2.5 left-2 z-[1] px-2 text-sm text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-valid:-top-2 peer-valid:text-xs peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent">
@@ -91,13 +95,13 @@
             </svg>
         </div>
         <!-- End Rounded base basic select -->
-        <div class="w-2/12 flex justify-center items-center">
+        <div class="w-2/12 flex space-x-2 items-center">
             <x-primary-button wire:click="search" class="w-24 h-10">Buscar</x-primary-button>
-
+            <x-secondary-button wire:click="clear" class="w-24 h-10">Reset</x-secondary-button>
         </div>
     </div>
     <div class="z-50 text-white mb-4" wire:loading>
-        <button type="button" class="bg-indigo-500 p-4" disabled>
+        <button type="button" class="bg-indigo-500 p-4 rounded-md" disabled>
             Processing...
         </button>
     </div>
@@ -175,7 +179,8 @@
                             </div>
 
                             <div class="flex items-center justify-center p-2.5 xl:p-5">
-                                <p class="font-medium text-meta-3">{{$result['node']['email']}}</p>
+                                <a href="mailto:{{$result['node']['email']}}"
+                                   class="cursor-pointer font-medium text-meta-3">{{$result['node']['email']}}</a>
                             </div>
 
                             <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
