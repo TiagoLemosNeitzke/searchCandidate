@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Component;
 
+use App\Services\GithubService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
 final class CandidateSearchComponent extends Component
@@ -12,8 +12,16 @@ final class CandidateSearchComponent extends Component
     public string $location = '';
     public string $language = '';
     public string $repos = '';
+    protected ?string $pagination = 'fsdfsdfd';
+
+    protected $http;
 
     public $results = [];
+
+    public function __construct()
+    {
+        $this->http = new (GithubService::class);
+    }
 
     public function render(): View|Application
     {
@@ -21,12 +29,11 @@ final class CandidateSearchComponent extends Component
             ->layout('layouts.app');
     }
 
-    public function search()
+    public function search(): void
     {
-        //todo: preciso montar a query de busca na api graphQl do github
-
         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-        $search = "{search(query: \"$query\", type: USER, first: 10) {
+
+        $search = "{search(query: \"$query\", type: USER, first: 30) {
             userCount
             edges {
                 node {
@@ -39,14 +46,18 @@ final class CandidateSearchComponent extends Component
                  repositoriesContributedTo {
                  totalCount }
                   }}}}}";
+        $result = $this->http->getData($search);
 
-        $result = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('github.token'),
-            'Content-Type' => 'application/json'])
-            ->post('https://api.github.com/graphql', ['query' => $search])
-            ->json();
+        if ($result === []) {
+            session()->flash('error', 'No results found');
+        }
 
-        $this->results = $result['data']['search']['edges'];
-//dd($this->results);
+        $this->results = $result;
+
+    }
+
+    public function save(string $candidate)
+    {
+        dd($candidate);
     }
 }
