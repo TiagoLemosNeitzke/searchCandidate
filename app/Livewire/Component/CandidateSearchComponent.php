@@ -13,7 +13,7 @@ final class CandidateSearchComponent extends Component
     public string $language = '';
     public string $repos = '';
 
-    public $result;
+    public $results = [];
 
     public function render(): View|Application
     {
@@ -43,8 +43,10 @@ final class CandidateSearchComponent extends Component
         $result = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('github.token'),
             'Content-Type' => 'application/json'])
-            ->post('https://api.github.com/graphql', ['query' => $search]);
+            ->post('https://api.github.com/graphql', ['query' => $search])
+            ->json();
 
-        $this->result = $result->body();
+        $this->results = $result['data']['search']['edges'];
+//dd($this->results);
     }
 }
