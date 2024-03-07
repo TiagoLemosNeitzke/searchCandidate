@@ -40,6 +40,7 @@ final class CandidateSearchComponent extends Component
         return view('livewire.component.candidate-search-component')
             ->layout('layouts.app');
     }
+
     public function search(): void
     {
         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
@@ -74,35 +75,18 @@ final class CandidateSearchComponent extends Component
         }
 
         $this->results = $result;
+
+        $this->clear();
     }
 
-    /* public function search(): void
-     {
-         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
+    public function clear(): void
+    {
+        $this->language = '';
+        $this->location = '';
+        $this->repos = '';
+        session(['repos' => '', 'language' => '$this->language', 'location' => '$this->location']);
 
-         $search = "{search(query: \"$query\", type: USER, first: 30) {
-             userCount
-             edges {
-                 node {
-                  ... on User {
-                  email
-                  bio
-                  location
-                  name
-                  avatarUrl
-                  repositoriesContributedTo {
-                  totalCount }
-                   }}}}}";
-
-         $result = $this->http->getData($search);
-
-         if ($result === []) {
-             session()->flash('error', 'No results found');
-         }
-
-         $this->results = $result;
-
-     }*/
+    }
 
     public function save(string $candidate)
     {
