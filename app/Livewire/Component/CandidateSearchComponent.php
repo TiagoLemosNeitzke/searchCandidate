@@ -14,7 +14,7 @@ final class CandidateSearchComponent extends Component
     public string $language = '';
     public string $repos = '';
 
-    protected $http;
+    public $http;
 
     public $results;
 
