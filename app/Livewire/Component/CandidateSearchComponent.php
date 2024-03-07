@@ -16,7 +16,7 @@ final class CandidateSearchComponent extends Component
 
     public string $repos = '';
 
-    protected $http;
+    private $http;
 
     public $results;
 
@@ -77,6 +77,52 @@ final class CandidateSearchComponent extends Component
 
         $this->clear();
     }
+
+    /* public function search(): void
+     {
+         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
+
+         session(['repos' => $this->repos, 'language' => $this->language, 'location' => $this->location]);
+
+         $cursor = null;
+         $results = [];
+
+         do {
+             $search = "{search(query: \"$query\", type: USER, first: 30) {
+             pageInfo {
+                 endCursor
+                 hasNextPage
+             }
+             userCount
+             edges {
+                 node {
+                  ... on User {
+                  email
+                  bio
+                  location
+                  name
+                  avatarUrl
+                  repositoriesContributedTo {
+                  totalCount }
+                   }}}}}";
+
+             $cacheKey = 'github.search:' . md5($query . $cursor);
+
+             $result = Cache::remember($cacheKey, 60, function () use ($search) {
+                 return $this->http->getData($search);
+             });
+             if ($result === []) {
+                 session()->flash('error', 'No results found');
+             }
+ dump($result);
+             $results = array_merge($results, $result['edges']);
+             $cursor = $result['pageInfo']['endCursor'];
+         } while ($result['pageInfo']['hasNextPage']);
+
+         $this->results = $results;
+
+         $this->clear();
+     }*/
 
     public function clear(): void
     {

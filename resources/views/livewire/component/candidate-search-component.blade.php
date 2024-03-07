@@ -136,7 +136,6 @@
                 </div>
                 @if(isset($results))
                     @foreach($results as $result)
-                        {{--@dump($result['node'])--}}
                         <div
                             class="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5"
                         >
