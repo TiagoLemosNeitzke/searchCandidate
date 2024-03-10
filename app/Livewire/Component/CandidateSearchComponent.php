@@ -61,7 +61,7 @@ final class CandidateSearchComponent extends Component
         $this->cursor = $results['data']['search']['pageInfo'];
     }
 
-    public function nextPage()
+    public function nextPage(): void
     {
         if ($this->cursor['hasNextPage']) {
             $this->search($this->cursor['endCursor']);

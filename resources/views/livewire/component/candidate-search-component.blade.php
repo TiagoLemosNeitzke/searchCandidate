@@ -9,15 +9,15 @@
 
     <div class="mx-auto flex flex-col lg:flex-row justify-between">
         <x-select-component :options="['PHP', 'javascript','Python', 'Golang', 'Rust', 'Dart']"
-                            label="Selecione a linguagem"/>
+                            label="Selecione a linguagem" model="language"/>
 
 
         <div class="relative my-6 md:w-60">
             <x-input-label>Digite o País</x-input-label>
-            <x-text-input class="bg-white" wire:model="location"></x-text-input>
+            <x-text-input class="bg-white" wire:model="location"/>
         </div>
 
-        <x-select-component :options="['10', '100', '200', '500', '1000']" label="Quantidade de Repos"/>
+        <x-select-component :options="['10', '100', '200', '500', '1000']" label="Quantidade de Repos" model="repos"/>
 
         <div class="w-2/12 flex space-x-2 items-center">
             <x-primary-button wire:click="search" wire:loading.attr="disabled" class="w-24 h-10">Buscar
