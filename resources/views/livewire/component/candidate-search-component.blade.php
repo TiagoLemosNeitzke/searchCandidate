@@ -136,6 +136,7 @@
                 </div>
                 @if(isset($results))
                     @foreach($results as $result)
+
                         <div
                             class="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5"
                         >
@@ -143,7 +144,7 @@
                                 <!-- Component: Primary basic checkbox -->
                                 <div class="relative flex flex-wrap items-center ">
                                     <input
-                                        class="w-4 h-4 transition-colors bg-white border-2 rounded appearance-none cursor-pointer focus-visible:outline-none peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600 checked:hover:bg-emerald-600 focus:outline-none checked:focus:border-emerald-700 checked:focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50"
+                                        class="w-8 h-8 transition-colors bg-white border-2 rounded appearance-none cursor-pointer focus-visible:outline-none peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600 checked:hover:bg-emerald-600 focus:outline-none checked:focus:border-emerald-700 checked:focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50"
                                         type="checkbox" id="favorite"
                                         wire:change="save('{{json_encode($result['node'])}}')"/>
                                     <label
@@ -169,7 +170,7 @@
                             <div class="flex items-center gap-3 p-2.5 xl:p-5">
 
                             <img src="{{$result['node']['avatarUrl']}}" alt="Brand"
-                                         class="rounded-full w-8 h-8"/>
+                                 class="rounded-full w-12 h-12"/>
 
                             </div>
 
@@ -189,6 +190,23 @@
                     @endforeach
                 @endif
             </div>
+            <!-- Botões de paginação -->
+
+            <div class="w-full mt-12 flex justify-end">
+                @if($cursor)
+                    {{--<button class="float-right" wire:click="previousPage"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>--}}
+                    <button wire:click="search('{{ $cursor['endCursor'] }}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6 text-indigo-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                        </svg>
+                    </button>
+                @endif
+            </div>
         </div>
     </div>
+
 </div>

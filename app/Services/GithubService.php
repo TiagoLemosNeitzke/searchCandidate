@@ -14,7 +14,7 @@ class GithubService
             ->post('https://api.github.com/graphql', ['query' => $search])
             ->json();
 
-        return $response['data']['search']['edges'] ?? [];
+        return $response['data']['search'] ?? [];
     }
 
 }
