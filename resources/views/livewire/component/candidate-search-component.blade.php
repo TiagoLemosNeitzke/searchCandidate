@@ -13,11 +13,8 @@
 
 
         <div class="relative my-6 md:w-60">
+            <x-input-label>Digite o País</x-input-label>
             <x-text-input class="bg-white" wire:model="location"></x-text-input>
-            <label for="location"
-                   class="pointer-events-none absolute top-2.5 left-2 z-[1] px-2 text-sm text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-valid:-top-2 peer-valid:text-xs peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent">
-                Escolha um País
-            </label>
         </div>
 
         <x-select-component :options="['10', '100', '200', '500', '1000']" label="Quantidade de Repos"/>
