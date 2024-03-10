@@ -16,11 +16,11 @@ final class CandidateSearchComponent extends Component
 
     public string $repos = '';
 
-    private $http;
+    private GithubService $http;
 
-    public $results;
+    public array $results;
 
-    public $cursor = "";
+    public array $cursor;
 
     public function __construct()
     {
@@ -45,13 +45,44 @@ final class CandidateSearchComponent extends Component
             ->layout('layouts.app');
     }
 
-    public function search(string $cursor = null): void
+    public function search(string $cursor = null)
+    {
+        $search = $this->handleQuery($cursor);
+
+        $results = $this->http->getData($search);
+
+        if (isset($results['errors'])) {
+            session()->flash('error', 'No results found');
+            return back();
+        }
+
+        $this->results = $results['data']['search']['edges'];
+
+        $this->cursor = $results['data']['search']['pageInfo'];
+    }
+
+    public function nextPage()
+    {
+        if ($this->cursor['hasNextPage']) {
+            $this->search($this->cursor['endCursor']);
+        }
+    }
+
+    public function clear(): void
+    {
+        $this->language = '';
+        $this->location = '';
+        $this->repos = '';
+        session(['repos' => '', 'language' => '$this->language', 'location' => '$this->location']);
+
+    }
+
+    public function handleQuery($cursor): string
     {
         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-
         session(['repos' => $this->repos, 'language' => $this->language, 'location' => $this->location]);
         $after = $cursor ? ", after: \"$cursor\"" : "";
-        $search = "{search(query: \"$query\", type: USER, first: 10, $after) {
+        return "{search(query: \"$query\", type: USER, first: 10, $after) {
         pageInfo {
             hasNextPage
             endCursor
@@ -74,24 +105,6 @@ final class CandidateSearchComponent extends Component
             }
         }
     }}";
-
-        $results = $this->http->getData($search);
-
-        $this->results = $results['edges'];
-
-        $this->cursor = $results['pageInfo'];
-
-        if ($this->results === []) {
-            session()->flash('error', 'No results found');
-        }
-    }
-
-    public function clear(): void
-    {
-        $this->language = '';
-        $this->location = '';
-        $this->repos = '';
-        session(['repos' => '', 'language' => '$this->language', 'location' => '$this->location']);
 
     }
 
