@@ -21,6 +21,7 @@ class UserComponent extends Component
     #[Rule('required|string|email|unique:users,email')]
     public $email;
 
+
     public function create():void
     {
         $this->reset('name','email','userId');
@@ -46,10 +47,25 @@ class UserComponent extends Component
     {
         $user = User::findOrFail($id);
         $this->userId = $id;
-        $this->name = $user->title;
-        $this->email = $user->body;
+        $this->name = $user->name;
+        $this->email = $user->email;
         $this->openModal();
     }
+
+    public function update()
+    {
+        if ($this->userId) {
+            $user = User::findOrFail($this->userId);
+            $user->update([
+                'name' => $this->name,
+                'email' => $this->email,
+            ]);
+            session()->flash('success', 'O usuario foi atualizado com sucesso.');
+            $this->closeModal();
+            $this->reset('name', 'email', 'userId');
+        }
+    }
+
     public function openModal():void
     {
         $this->isOpen = true;
