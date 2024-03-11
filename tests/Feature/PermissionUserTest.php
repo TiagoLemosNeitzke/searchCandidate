@@ -3,6 +3,13 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+it('should be able to check a user has any permission',function (){
+    $user = User::factory()->createOne();
+    expect($user->hasAnyPermission())->toBeFalse();
+    $user->givePermissionTo('search-candidates');
+    expect($user->hasAnyPermission())->toBeTrue();
+});
+
 it('should be able to give a permission to a user', function () {
     // Arrange
     $user = User::factory()->create();
