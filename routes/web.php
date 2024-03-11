@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\UserPermission\UserComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,5 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::get('/user_permissions', UserComponent::class)->name('user_permissions');
 require __DIR__ . '/auth.php';
