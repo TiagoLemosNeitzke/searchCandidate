@@ -68,6 +68,13 @@ final class CandidateSearchComponent extends Component
         }
     }
 
+    public function previousPage(): void
+    {
+        if ($this->cursor['hasNextPage']) {
+            $this->search($this->cursor['endCursor']);
+        }
+    }
+
     public function clear(): void
     {
         $this->language = '';
