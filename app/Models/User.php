@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -67,5 +68,9 @@ class User extends Authenticatable
         return $this->permissions()->exists();
     }
 
+    public function getAllPermissions(): Collection
+    {
+        return $this->permissions;
+    }
 
 }
