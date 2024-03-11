@@ -2,6 +2,7 @@
 
 use App\Livewire\Component\CandidateSearchComponent;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Volt::route('/', 'pages.auth.login')
+    ->name('login');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
