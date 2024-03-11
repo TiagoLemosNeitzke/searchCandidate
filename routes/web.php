@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
+use App\Livewire\Component\CandidateSearchComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,9 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('search', CandidateSearchComponent::class)->name('search');
+});
 
 require __DIR__ . '/auth.php';
