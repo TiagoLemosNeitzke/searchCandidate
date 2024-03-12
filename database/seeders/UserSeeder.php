@@ -8,11 +8,13 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+
+        User::factory(1)
+            ->hasCandidates(3)
+            ->create();
+
         $user = User::factory()->create([
             'name' => 'Administrador',
             'email' => 'admin@admin.com',
@@ -31,6 +33,5 @@ class UserSeeder extends Seeder
             'email' => 'selecionador@selecionador.com',
         ]);
         $user->givePermissionTo('searcher');
-
     }
 }
