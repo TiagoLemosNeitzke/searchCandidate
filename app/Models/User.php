@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function givePermissionTo(string $permission):void
     {
-         /** @var Permission $p */
+        /** @var Permission $p */
         $p = Permission::query()->firstOrCreate(compact('permission'));
 
         $this->permissions()->attach($p);
@@ -71,6 +71,11 @@ class User extends Authenticatable
     public function getAllPermissions(): Collection
     {
         return $this->permissions;
+    }
+
+    public function revokeAllPermissions()
+    {
+        $this->permissions()->detach();
     }
 
 }

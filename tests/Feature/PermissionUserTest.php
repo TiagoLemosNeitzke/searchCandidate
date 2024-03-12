@@ -10,6 +10,14 @@ it('should be able to check a user has any permission',function (){
     expect($user->hasAnyPermission())->toBeTrue();
 });
 
+it('should be able to revoke all user permission ',function (){
+    $user = User::factory()->createOne();
+    $user->givePermissionTo('search-candidates');
+    expect($user->hasAnyPermission())->toBeTrue();
+    $user->revokeAllPermissions();
+    expect($user->hasAnyPermission())->toBeFalse();
+});
+
 it('should be able to give a permission to a user', function () {
     // Arrange
     $user = User::factory()->create();

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\UserPermission;
 
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
@@ -21,10 +22,16 @@ class UserComponent extends Component
     #[Rule('required|string|email|unique:users,email')]
     public $email;
 
+    public $availablePermissions = [];
+    public $selectedPermissions = [];
 
+    public function mount()
+    {
+        $this->availablePermissions = Permission::all();
+    }
     public function create():void
     {
-        $this->reset('name','email','userId');
+        $this->reset('name','email','userId','selectedPermissions');
 
         $this->openModal();
     }
@@ -32,14 +39,20 @@ class UserComponent extends Component
     public function store():void
     {
         $this->validate();
-        User::create([
+        $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make('password'),
         ]);
+        foreach ($this->selectedPermissions as $permissionId) {
+            $permission = Permission::where('permission',$permissionId)->first();
+            if ($permission) {
+                $user->givePermissionTo($permission->permission);
+            }
+        }
         session()->flash('success', 'User created successfully.');
 
-        $this->reset('name','email');
+        $this->reset('name','email','selectedPermissions');
         $this->closeModal();
     }
 
@@ -49,6 +62,7 @@ class UserComponent extends Component
         $this->userId = $id;
         $this->name = $user->name;
         $this->email = $user->email;
+        $this->selectedPermissions = $user->getAllPermissions()->pluck('permission')->toArray();
         $this->openModal();
     }
 
@@ -56,13 +70,26 @@ class UserComponent extends Component
     {
         if ($this->userId) {
             $user = User::findOrFail($this->userId);
+
+            //  Remove all user permission
+            $user->revokeAllPermissions();
+
+            // Assigns the newly selected permissions
+            foreach ($this->selectedPermissions as $permissionId) {
+
+                $permission = Permission::where('permission',$permissionId)->first();
+                if ($permission) {
+                    $user->givePermissionTo($permission->permission);
+                }
+            }
+
             $user->update([
                 'name' => $this->name,
                 'email' => $this->email,
             ]);
             session()->flash('success', 'O usuario foi atualizado com sucesso.');
             $this->closeModal();
-            $this->reset('name', 'email', 'userId');
+            $this->reset('name', 'email', 'userId','selectedPermissions');
         }
     }
 
@@ -78,6 +105,7 @@ class UserComponent extends Component
 
     public function render():view
     {
+
         return view('livewire.user-permission.user-component',[
             'users' => User::paginate(5)
         ]);
