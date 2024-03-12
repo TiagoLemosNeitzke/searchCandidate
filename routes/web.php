@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Livewire\Candidate\FavoriteCandidate;
 use App\Livewire\Component\CandidateSearchComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,8 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::middleware('auth')->group(function (): void {
-    Route::get('search', CandidateSearchComponent::class)->name('search');
+    Route::get('candidate/search', CandidateSearchComponent::class)->name('candidate.search');
+    Route::get('candidate/favorite', FavoriteCandidate::class)->name('candidate.favorite');
 });
 
 require __DIR__ . '/auth.php';
