@@ -1,5 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
+delare(strict_types=1);
+
+use App\Livewire\UserPermission\UserComponent;
 use App\Livewire\Candidate\FavoriteCandidate;
 use App\Livewire\Component\CandidateSearchComponent;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +27,9 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+
+Route::get('/user_permissions', UserComponent::class)->name('user_permissions');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('candidate/search', CandidateSearchComponent::class)->name('candidate.search');
