@@ -37,6 +37,7 @@
 
         <!-- Page Content -->
         <main>
+            <x-error-alert/>
             {{ $slot }}
         </main>
     </div>

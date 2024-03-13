@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Component;
 
+use App\Models\Candidate;
 use App\Services\GithubService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -108,8 +109,25 @@ final class CandidateSearchComponent extends Component
 
     }
 
-    public function save(string $candidate): void
+    public function save($candidate): void
     {
-        dd($candidate);
+        $candidate = Candidate::where('name', $candidate['name'])->first();
+
+        if ($candidate->name === $candidate['name']) {
+            session()->flash('error', "Candidato já favoritado.");
+            $this->redirectRoute('search');
+        } else {
+            Candidate::create([
+                'user_id' => auth()->user()->id,
+                'name' => $candidate['name'],
+                'avatarUrl' => $candidate['avatarUrl'],
+                'email' => $candidate['email'],
+                'bio' => $candidate['bio'],
+                'location' => $candidate['location'],
+                'contributed_count' => $candidate['repositoriesContributedTo']['totalCount'],
+            ]);
+            session()->flash('sucess', 'Candidato Favoritado!');
+            $this->redirectRoute('search');
+        }
     }
 }

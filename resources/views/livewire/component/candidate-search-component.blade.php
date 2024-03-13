@@ -15,8 +15,6 @@
             </button>
         </div>
 
-        <x-error-alert/>
-
         <div class="flex flex-col items-center justify-between lg:flex-row">
             <x-select-component :options="['PHP', 'javascript', 'Python', 'Golang', 'Rust', 'Dart']"
                                 label="Selecione a linguagem" model="language"/>
@@ -39,17 +37,16 @@
                 </x-secondary-button>
             </div>
         </div>
-
         {{-- table --}}
         <x-table title="Candidatos Encontrados" :items="$results" :columns="[
-        ['label' => 'Avatar', 'column' => 'node.avatarUrl'],
-        ['label' => 'NOME', 'column' => 'node.name'],
-        ['label' => 'EMAIL', 'column' => 'node.email'],
-        ['label' => 'Filtros', 'column' => 'filters'],
-        ['label' => 'BIO', 'column' => 'node.bio'],
-        ['label' => 'Contribuições', 'column' => 'node.contributed_count'],
-        ['label' => 'Localização', 'column' => 'node.location'],
-    ]" />
+         ['label' => 'Favoritar', 'column' => 'Favoritar'],
+         ['label' => 'Avatar', 'column' => 'node.avatarUrl'],
+         ['label' => 'NOME', 'column' => 'node.name'],
+         ['label' => 'EMAIL', 'column' => 'node.email'],
+         ['label' => 'BIO', 'column' => 'node.bio'],
+         ['label' => 'Contribuições', 'column' => 'node.repositoriesContributedTo.totalCount'],
+         ['label' => 'Localização', 'column' => 'node.location'],
+     ]"/>
 
 
     </div>

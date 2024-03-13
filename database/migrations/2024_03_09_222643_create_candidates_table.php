@@ -19,8 +19,6 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->text('location')->nullable();
             $table->integer('contributed_count')->nullable();
-            $table->text('filters')->nullable();
-            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }

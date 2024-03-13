@@ -11,13 +11,13 @@ class Candidate extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'avatarUrl',
         'email',
         'bio',
         'location',
-        'contributed_to',
-        'filters'
+        'contributed_count',
     ];
 
     public function user(): BelongsTo
