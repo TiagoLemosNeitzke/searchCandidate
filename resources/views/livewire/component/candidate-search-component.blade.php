@@ -4,10 +4,12 @@
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                 {{ __('Buscar Candidato') }}
             </h2>
-
+            @can('view', auth()->user())
             <x-bread-crumb/>
+            @endcan
         </div>
     </x-slot>
+    @can('view', auth()->user())
     <div class="mx-auto max-w-7xl">
         <div class="fixed z-50 text-white transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" wire:loading>
             <button type="button" class="p-4 bg-indigo-500 rounded-md" disabled>
@@ -50,5 +52,5 @@
 
 
     </div>
-
+    @endcan
 </div>
