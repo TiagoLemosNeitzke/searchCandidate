@@ -6,11 +6,14 @@ use App\Models\Candidate;
 use App\Services\GithubService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 final class CandidateSearchComponent extends Component
 {
+    use AuthorizesRequests;
+
     public string $location = '';
 
     public string $language = '';
@@ -42,6 +45,8 @@ final class CandidateSearchComponent extends Component
 
     public function render(): View|Application
     {
+        $this->authorize('searcher', auth()->user());
+
         return view('livewire.component.candidate-search-component')
             ->layout('layouts.app');
     }
@@ -111,12 +116,9 @@ final class CandidateSearchComponent extends Component
 
     public function save($candidate): void
     {
-        $candidate = Candidate::where('name', $candidate['name'])->first();
+        $results = Candidate::where('name', $candidate['name'])->first();
 
-        if ($candidate->name === $candidate['name']) {
-            session()->flash('error', "Candidato já favoritado.");
-            $this->redirectRoute('search');
-        } else {
+        if ($results === null) {
             Candidate::create([
                 'user_id' => auth()->user()->id,
                 'name' => $candidate['name'],
@@ -127,6 +129,9 @@ final class CandidateSearchComponent extends Component
                 'contributed_count' => $candidate['repositoriesContributedTo']['totalCount'],
             ]);
             session()->flash('sucess', 'Candidato Favoritado!');
+            $this->redirectRoute('search');
+        } else {
+            session()->flash('error', "Candidato já favoritado.");
             $this->redirectRoute('search');
         }
     }
