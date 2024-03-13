@@ -1,10 +1,10 @@
 <?php
 
-delare(strict_types=1);
+declare(strict_types=1);
 
-use App\Livewire\UserPermission\UserComponent;
 use App\Livewire\Candidate\FavoriteCandidate;
 use App\Livewire\Component\CandidateSearchComponent;
+use App\Livewire\UserPermission\UserComponent;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
