@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Livewire\Candidate;
 
 use App\Models\Candidate;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithPagination;
 
 class FavoriteCandidate extends Component
@@ -32,22 +29,20 @@ class FavoriteCandidate extends Component
         ]);
     }
 
-    public function candidateRemove(Candidate $candidate): Redirector|Application|RedirectResponse
+    public function candidateRemove(Candidate $candidate): void
     {
-        $candidate = $candidate->findOrFail($candidate->id);
+        if (auth()->user()->id === $candidate->user_id || auth()->user()->hasPermissionTo('admin')) {
 
-        if (empty($candidate)) {
+            $candidate->delete();
 
-            session()->flash('error', 'Candidato não encontrado ou não pode ser excluído!');
+            session()->flash('success', 'Candidato excluído com sucesso!');
 
-            return redirect()->route('favorite');
+            $this->redirectRoute('favorite');
+        } else {
+            session()->flash('error', 'Você não pode excluir esse candidato!');
 
+            $this->redirectRoute('favorite');
         }
 
-        $candidate->delete();
-
-        session()->flash('success', 'Candidato excluído com sucesso!');
-
-        return redirect()->route('favorite');
     }
 }

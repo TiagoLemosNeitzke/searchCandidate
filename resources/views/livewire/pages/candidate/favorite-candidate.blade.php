@@ -11,7 +11,6 @@
 <div class="flex flex-col items-center justify-center mt-12">
 
     <div class="w-full max-w-2xl">
-        <x-error-alert/>
         <x-success-alert/>
     </div>
 
