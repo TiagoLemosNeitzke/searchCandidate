@@ -7,7 +7,6 @@ use App\Services\GithubService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 final class CandidateSearchComponent extends Component
@@ -29,18 +28,6 @@ final class CandidateSearchComponent extends Component
     public function __construct()
     {
         $this->http = new (GithubService::class);
-    }
-
-    public function mount(): void
-    {
-        $this->repos = session('repos', '');
-        $this->language = session('language', '');
-        $this->location = session('location', '');
-
-        $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-        $cacheKey = 'github.search:' . md5($query);
-
-        $this->results = Cache::get($cacheKey) ?? [];
     }
 
     public function render(): View|Application
@@ -86,7 +73,7 @@ final class CandidateSearchComponent extends Component
     public function handleQuery($cursor): string
     {
         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-        session(['repos' => $this->repos, 'language' => $this->language, 'location' => $this->location]);
+
         $after = $cursor ? ", after: \"$cursor\"" : "";
         return "{search(query: \"$query\", type: USER, first: 10, $after) {
         pageInfo {
