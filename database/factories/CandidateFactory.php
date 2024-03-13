@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 
 class CandidateFactory extends Factory
 {
@@ -20,7 +19,6 @@ class CandidateFactory extends Factory
             'bio'               => fake('pt_BR')->text,
             'location'          => fake('pt_BR')->country,
             'contributed_count' => rand(10, 999),
-            'filters'           => Arr::random($filters),
         ];
     }
 }
