@@ -25,7 +25,7 @@ class UserComponent extends Component
     public $availablePermissions = [];
     public $selectedPermissions = [];
 
-    public function mount()
+    public function mount(): void
     {
         $this->availablePermissions = Permission::all();
     }
@@ -56,7 +56,7 @@ class UserComponent extends Component
         $this->closeModal();
     }
 
-    public function edit($id)
+    public function edit($id): void
     {
         $user = User::findOrFail($id);
         $this->userId = $id;
@@ -66,7 +66,7 @@ class UserComponent extends Component
         $this->openModal();
     }
 
-    public function update()
+    public function update(): void
     {
         if ($this->userId) {
             $user = User::findOrFail($this->userId);
@@ -87,7 +87,7 @@ class UserComponent extends Component
                 'name' => $this->name,
                 'email' => $this->email,
             ]);
-            session()->flash('success', 'O usuario foi atualizado com sucesso.');
+            session()->flash('success', 'O usuário foi atualizado com sucesso.');
             $this->closeModal();
             $this->reset('name', 'email', 'userId','selectedPermissions');
         }

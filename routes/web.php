@@ -31,7 +31,7 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 
-Route::get('/user_permissions', UserComponent::class)->name('user_permissions');
+Route::get('/permissions', UserComponent::class)->name('permissions');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/search', CandidateSearchComponent::class)->name('search');
