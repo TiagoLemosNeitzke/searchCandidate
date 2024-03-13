@@ -43,7 +43,8 @@
         </div>
 
         @forelse($items as $item)
-            <div class="grid grid-cols-7 border-b-2 border-slate-900 last:border-b-0 border-stroke hover:bg-slate-700/50"
+            <div
+                class="grid grid-cols-7 border-b-2 border-slate-900 last:border-b-0 border-stroke hover:bg-slate-700/50"
                 wire:key="{{ $item->id ?? null }}">
 
                 @foreach ($columns as $column)
@@ -65,15 +66,15 @@
                                             <svg class='w-6 h-6' xmlns="http://www.w3.org/2000/svg" fill="none"
                                                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
                                         </button>
-                                        @endif
+                                    @endif
 
                                 </div>
 
                                 <img class="object-contain w-[80px] h-[80px] p-2 rounded-full"
-                                    src="{{ data_get($item, $column['column']) }}" alt="Avatar" />
+                                     src="{{ data_get($item, $column['column']) }}" alt="Avatar"/>
 
                             </div>
                         @endif
@@ -85,12 +86,12 @@
                                 <div>
 
                                     <span x-data="{ tooltip: false, mouseX: 0, mouseY: 0 }"
-                                        x-on:mouseover="tooltip = true; mouseX = $event.clientX; mouseY = $event.clientY"
-                                        x-on:mouseleave="tooltip = false" class="relative" x-cloak>
+                                          x-on:mouseover="tooltip = true; mouseX = $event.clientX; mouseY = $event.clientY"
+                                          x-on:mouseleave="tooltip = false" class="relative" x-cloak>
                                         {{ Str::limit(data_get($item, $column['column']), 20) }}
 
                                         <div x-show="tooltip"
-                                            class="absolute z-10 px-2 py-4 mt-2 bg-white rounded-lg shadow">
+                                             class="absolute z-10 px-2 py-4 mt-2 bg-white rounded-lg shadow">
                                             <div class="text-sm">
                                                 {{ data_get($item, $column['column']) }}
                                             </div>
@@ -98,14 +99,19 @@
                                             </div>
                                         </div>
                                     </span>
-
-
                                 </div>
                             </div>
                         @endif
-
+                            @if ($column['label'] == 'Quem salvou?')
+                                <div class="flex items-center first:flex-col justify-center p-2.5 xl:p-5">
+                                    <div>
+                                        {{$item->user->name}}
+                                    </div>
+                                </div>
+                            @endif
                     </div>
                 @endforeach
+
             </div>
 
         @empty

@@ -1,33 +1,33 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Livewire\Candidate;
 
 use App\Models\Candidate;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Livewire\Component;
-use Livewire\WithPagination;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
+use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
+use Livewire\WithPagination;
 
 class FavoriteCandidate extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     public $id;
     protected object $candidates;
-    
+
     public function render(): View
     {
+        $this->authorize('searcher');
         $this->candidates = Candidate::with('user')
-        ->where('user_id', auth()->user()->id)
-        ->orderBy('name')
-        ->paginate();
-
-        return view('livewire.pages.candidate.favorite-candidate',[
+            ->orderBy('name')
+            ->get();
+        return view('livewire.pages.candidate.favorite-candidate', [
             'candidates' => $this->candidates,
         ]);
     }
@@ -36,11 +36,11 @@ class FavoriteCandidate extends Component
     {
         $candidate = $candidate->findOrFail($candidate->id);
 
-        if(empty($candidate)){
+        if (empty($candidate)) {
 
-            session()->flash('error', 'Candidato não enncontrado e não pode ser excluído!');
+            session()->flash('error', 'Candidato não encontrado ou não pode ser excluído!');
 
-           return redirect()->route('candidate.favorite');
+            return redirect()->route('favorite');
 
         }
 
@@ -48,6 +48,6 @@ class FavoriteCandidate extends Component
 
         session()->flash('success', 'Candidato excluído com sucesso!');
 
-        return redirect()->route('candidate.favorite');
+        return redirect()->route('favorite');
     }
 }

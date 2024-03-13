@@ -1,7 +1,7 @@
 <x-slot name="header">
     <div class="flex items-center justify-between">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('Listar Candidatos') }}  {{$candidates}}
+            {{ __('Listar Candidatos')}}
         </h2>
 
             <x-bread-crumb/>
@@ -22,7 +22,7 @@
         ['label' => 'BIO', 'column' => 'bio'],
         ['label' => 'Contribuições', 'column' => 'contributed_count'],
         ['label' => 'Localização', 'column' => 'location'],
-        ['label' => 'Que salvou?', 'column' => ''],
+        ['label' => 'Quem salvou?', 'column' => ''],
     ]"/>
 
 </div>
