@@ -34,8 +34,8 @@ Route::view('profile', 'profile')
 Route::get('/user_permissions', UserComponent::class)->name('user_permissions');
 
 Route::middleware('auth')->group(function (): void {
-    Route::get('candidate/search', CandidateSearchComponent::class)->name('candidate.search');
-    Route::get('candidate/favorite', FavoriteCandidate::class)->name('candidate.favorite');
+    Route::get('/search', CandidateSearchComponent::class)->name('search');
+    Route::get('/favorite', FavoriteCandidate::class)->name('favorite');
 });
 
 require __DIR__ . '/auth.php';
