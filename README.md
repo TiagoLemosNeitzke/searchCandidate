@@ -46,4 +46,4 @@ Thank you for considering contributing to the project, the contribution guide ca
 
 ## License
 
-The AdoteUm.Dev web application is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
