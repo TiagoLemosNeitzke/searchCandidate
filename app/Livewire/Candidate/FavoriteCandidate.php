@@ -24,6 +24,7 @@ class FavoriteCandidate extends Component
         $this->candidates = Candidate::with('user')
             ->orderBy('name')
             ->get();
+
         return view('livewire.pages.candidate.favorite-candidate', [
             'candidates' => $this->candidates,
         ]);
@@ -39,6 +40,7 @@ class FavoriteCandidate extends Component
 
             $this->redirectRoute('favorite');
         } else {
+
             session()->flash('error', 'Você não pode excluir esse candidato!');
 
             $this->redirectRoute('favorite');
