@@ -139,6 +139,8 @@ $ ./sail npm run dev
 ## 6. Open Application in Browser
 With everything resolved, the time has definitely come to see the application working, for that, go to the url `http://localhost:${APP_PORT}` in your favorite browser.
 
+You have two accounts, selecionador@selecionador.com and cto@cto.com, both with a password of `password`. If you want to
+create your account, you need to log in with the account cto@cto.com to give permissions to your user.
 📝 Note
 > Where ${APP_PORT} should be replaced by the port number informed in your '.env' file, if you did not enter a port number, the default port used will be `80`.
 
