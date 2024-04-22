@@ -2,14 +2,17 @@
 
 namespace App\Livewire\Component;
 
+use App\Models\Candidate;
 use App\Services\GithubService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 final class CandidateSearchComponent extends Component
 {
+    use AuthorizesRequests;
+
     public string $location = '';
 
     public string $language = '';
@@ -27,20 +30,10 @@ final class CandidateSearchComponent extends Component
         $this->http = new (GithubService::class);
     }
 
-    public function mount(): void
-    {
-        $this->repos = session('repos', '');
-        $this->language = session('language', '');
-        $this->location = session('location', '');
-
-        $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-        $cacheKey = 'github.search:' . md5($query);
-
-        $this->results = Cache::get($cacheKey) ?? [];
-    }
-
     public function render(): View|Application
     {
+        $this->authorize('searcher', auth()->user());
+
         return view('livewire.component.candidate-search-component')
             ->layout('layouts.app');
     }
@@ -80,7 +73,7 @@ final class CandidateSearchComponent extends Component
     public function handleQuery($cursor): string
     {
         $query = "type:user repos:>$this->repos language:$this->language location:$this->location is:public ";
-        session(['repos' => $this->repos, 'language' => $this->language, 'location' => $this->location]);
+
         $after = $cursor ? ", after: \"$cursor\"" : "";
         return "{search(query: \"$query\", type: USER, first: 10, $after) {
         pageInfo {
@@ -108,8 +101,25 @@ final class CandidateSearchComponent extends Component
 
     }
 
-    public function save(string $candidate): void
+    public function save($candidate): void
     {
-        dd($candidate);
+        $results = Candidate::where('name', $candidate['name'])->first();
+
+        if ($results === null) {
+            Candidate::create([
+                'user_id' => auth()->user()->id,
+                'name' => $candidate['name'],
+                'avatarUrl' => $candidate['avatarUrl'],
+                'email' => $candidate['email'],
+                'bio' => $candidate['bio'],
+                'location' => $candidate['location'],
+                'contributed_count' => $candidate['repositoriesContributedTo']['totalCount'],
+            ]);
+            session()->flash('sucess', 'Candidato Favoritado!');
+            $this->redirectRoute('search');
+        } else {
+            session()->flash('error', "Candidato já favoritado.");
+            $this->redirectRoute('search');
+        }
     }
 }

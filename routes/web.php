@@ -1,6 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
+
+use App\Livewire\Candidate\FavoriteCandidate;
 use App\Livewire\Component\CandidateSearchComponent;
+use App\Livewire\UserPermission\UserComponent;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -15,8 +19,10 @@ use Livewire\Volt\Volt;
 |
 */
 
+
 Volt::route('/', 'pages.auth.login')
     ->name('login');
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -26,8 +32,12 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+
+Route::get('/permissions', UserComponent::class)->name('permissions');
+
 Route::middleware('auth')->group(function (): void {
-    Route::get('search', CandidateSearchComponent::class)->name('search');
+    Route::get('/search', CandidateSearchComponent::class)->name('search');
+    Route::get('/favorite', FavoriteCandidate::class)->name('favorite');
 });
 
 require __DIR__ . '/auth.php';

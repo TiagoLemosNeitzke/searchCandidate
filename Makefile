@@ -29,7 +29,7 @@ npm-install:
 .PHONY: migrate
 migrate:
 	@echo "--> run sail art migrate command..."
-	@./vendor/bin/sail art migrate
+	@./vendor/bin/sail art migrate --seed
 
 .PHONY: npm-dev
 npm-dev:
