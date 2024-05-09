@@ -20,8 +20,7 @@ use Livewire\Volt\Volt;
 */
 
 
-Volt::route('/', 'pages.auth.login')
-    ->name('login');
+Volt::route('/', 'pages.auth.login');
 
 
 Route::view('dashboard', 'dashboard')
